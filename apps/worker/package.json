@@ -1,0 +1,7 @@
+{
+  "name": "@apps/worker",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {"dev":"tsx watch src/index.ts","build":"tsc -p tsconfig.json","start":"node dist/index.js","lint":"eslint src --ext .ts","test":"vitest run"},
+  "dependencies": {"bullmq":"^5.48.1","ioredis":"^5.6.0","@packages/config":"workspace:*","@packages/logger":"workspace:*"}
+}

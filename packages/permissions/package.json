@@ -1,0 +1,9 @@
+{
+  "name": "@packages/permissions",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {"build":"tsc -p tsconfig.json","lint":"eslint src --ext .ts","test":"vitest run"},
+  "dependencies": {"discord.js":"^14.19.3","@packages/config":"workspace:*","@packages/shared":"workspace:*"}
+}

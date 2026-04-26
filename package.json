@@ -1,0 +1,29 @@
+{
+  "name": "aegisbot-platform",
+  "private": true,
+  "version": "1.0.0",
+  "packageManager": "pnpm@10.10.0",
+  "scripts": {
+    "build": "pnpm -r build",
+    "dev": "pnpm --parallel --filter @apps/bot --filter @apps/api --filter @apps/worker --filter @apps/web dev",
+    "start": "pnpm --filter @apps/bot start",
+    "lint": "pnpm -r lint",
+    "test": "pnpm -r test",
+    "prisma:generate": "pnpm --filter @packages/database prisma:generate",
+    "prisma:migrate": "pnpm --filter @packages/database prisma:migrate",
+    "prisma:studio": "pnpm --filter @packages/database prisma:studio",
+    "register:guild-commands": "pnpm --filter @apps/bot register:guild-commands",
+    "register:global-commands": "pnpm --filter @apps/bot register:global-commands"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.3",
+    "@typescript-eslint/eslint-plugin": "^8.31.1",
+    "@typescript-eslint/parser": "^8.31.1",
+    "eslint": "^9.25.1",
+    "eslint-config-prettier": "^10.1.2",
+    "prettier": "^3.5.3",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.3",
+    "vitest": "^3.1.2"
+  }
+}

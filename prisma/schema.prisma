@@ -1,0 +1,145 @@
+generator client { provider = "prisma-client-js" }
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Guild {
+  id           String        @id
+  name         String
+  config       GuildConfig?
+  modules      ModuleConfig[]
+  cases        ModerationCase[]
+  warnings     Warning[]
+  tickets      Ticket[]
+  auditLogs    AuditLog[]
+  commandUsage CommandUsage[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+model GuildConfig {
+  id                     String   @id @default(cuid())
+  guildId                String   @unique
+  guild                  Guild    @relation(fields: [guildId], references: [id], onDelete: Cascade)
+  auditLogChannelId      String?
+  welcomeChannelId       String?
+  welcomeMessageTemplate String?  @default("Welcome {user} to {server}!")
+  locale                 String   @default("en-US")
+  timezone               String   @default("UTC")
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+}
+
+model ModuleConfig {
+  id        String   @id @default(cuid())
+  guildId   String
+  guild     Guild    @relation(fields: [guildId], references: [id], onDelete: Cascade)
+  module    String
+  enabled   Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@unique([guildId, module])
+  @@index([guildId])
+}
+
+model ModerationCase {
+  id          String   @id @default(cuid())
+  guildId     String
+  guild       Guild    @relation(fields: [guildId], references: [id], onDelete: Cascade)
+  userId      String
+  moderatorId String
+  action      String
+  reason      String?
+  warningId   String?
+  warning     Warning? @relation(fields: [warningId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  @@index([guildId])
+  @@index([userId])
+  @@index([moderatorId])
+}
+
+model Warning {
+  id           String           @id @default(cuid())
+  guildId      String
+  guild        Guild            @relation(fields: [guildId], references: [id], onDelete: Cascade)
+  userId       String
+  moderatorId  String
+  reason       String?
+  cases        ModerationCase[]
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+  @@index([guildId])
+  @@index([userId])
+  @@index([moderatorId])
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  guildId   String
+  guild     Guild    @relation(fields: [guildId], references: [id], onDelete: Cascade)
+  action    String
+  actorId   String
+  targetId  String?
+  metadata  Json?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([guildId])
+}
+
+model Ticket {
+  id         String          @id @default(cuid())
+  guildId    String
+  guild      Guild           @relation(fields: [guildId], references: [id], onDelete: Cascade)
+  userId     String
+  channelId  String
+  status     String          @default("OPEN")
+  messages   TicketMessage[]
+  createdAt  DateTime        @default(now())
+  updatedAt  DateTime        @updatedAt
+  @@index([guildId])
+  @@index([userId])
+}
+
+model TicketMessage {
+  id        String   @id @default(cuid())
+  ticketId  String
+  ticket    Ticket   @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  authorId  String
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([ticketId])
+}
+
+model UserProfile {
+  id        String   @id
+  locale    String?  
+  timezone  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model CommandUsage {
+  id        String   @id @default(cuid())
+  guildId   String
+  guild     Guild    @relation(fields: [guildId], references: [id], onDelete: Cascade)
+  userId    String
+  command   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([guildId])
+  @@index([userId])
+}
+
+model PremiumSubscription {
+  id          String   @id @default(cuid())
+  guildId     String   @unique
+  tier        String
+  active      Boolean  @default(false)
+  expiresAt   DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}

@@ -1,0 +1,9 @@
+{
+  "name": "@packages/logger",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {"build":"tsc -p tsconfig.json","lint":"eslint src --ext .ts","test":"vitest run"},
+  "dependencies": {"pino":"^9.7.0","@packages/config":"workspace:*"}
+}
