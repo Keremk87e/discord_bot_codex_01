@@ -1,0 +1,7 @@
+{
+  "name": "@apps/web",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {"dev":"tsx watch src/index.ts","build":"tsc -p tsconfig.json","start":"node dist/index.js","lint":"eslint src --ext .ts","test":"vitest run"},
+  "dependencies": {"@packages/config":"workspace:*"}
+}

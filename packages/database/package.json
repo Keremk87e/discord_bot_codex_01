@@ -1,0 +1,17 @@
+{
+  "name": "@packages/database",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build":"tsc -p tsconfig.json",
+    "lint":"eslint src --ext .ts",
+    "test":"vitest run",
+    "prisma:generate":"prisma generate",
+    "prisma:migrate":"prisma migrate dev",
+    "prisma:studio":"prisma studio"
+  },
+  "dependencies": {"@prisma/client":"^6.6.0","@packages/logger":"workspace:*"},
+  "devDependencies": {"prisma":"^6.6.0"}
+}

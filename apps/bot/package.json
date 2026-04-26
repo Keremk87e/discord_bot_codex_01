@@ -1,0 +1,22 @@
+{
+  "name": "@apps/bot",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/index.js",
+    "lint": "eslint src --ext .ts",
+    "test": "vitest run",
+    "register:guild-commands": "tsx src/register-commands.ts guild",
+    "register:global-commands": "tsx src/register-commands.ts global"
+  },
+  "dependencies": {
+    "discord.js": "^14.19.3",
+    "@packages/config": "workspace:*",
+    "@packages/logger": "workspace:*",
+    "@packages/database": "workspace:*",
+    "@packages/discord-core": "workspace:*",
+    "@packages/modules": "workspace:*"
+  }
+}
